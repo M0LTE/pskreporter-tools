@@ -21,7 +21,7 @@ namespace spotgrabber
             Sender sender = new Sender();
             var senderTask = sender.Start();
 
-            Grabber grabber = new Grabber();
+            Grabber grabber = new Grabber(Environment.GetEnvironmentVariable("PSK_REPORTER_API_KEY");
             grabber.SpotsReceived += (s, e) => sender.QueueForSending(e.Spot);
             var grabberTask = grabber.Start();
 
@@ -104,16 +104,17 @@ namespace spotgrabber
 
     class Grabber
     {
-        const string url = "https://www.pskreporter.info/stream/report?token=HFYcsJkpeDMt1W2dreuZlJEYwQa9N0y1";
+        string url;
 
         public event EventHandler<SpotReceivedEventArgs> SpotsReceived;
         private readonly HttpClient httpClient;
        
-        public Grabber()
+        public Grabber(string pskReporterApiKey)
         {
             httpClient = new HttpClient();
             httpClient.Timeout = Timeout.InfiniteTimeSpan;
 
+            url = $"https://www.pskreporter.info/stream/report?token={pskReporterApiKey}";
         }
 
         internal async Task Start()

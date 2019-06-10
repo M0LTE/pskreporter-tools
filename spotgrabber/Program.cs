@@ -21,7 +21,7 @@ namespace spotgrabber
             Sender sender = new Sender();
             var senderTask = sender.Start();
 
-            Grabber grabber = new Grabber(Environment.GetEnvironmentVariable("PSK_REPORTER_API_KEY");
+            Grabber grabber = new Grabber(Environment.GetEnvironmentVariable("PSK_REPORTER_API_KEY"));
             grabber.SpotsReceived += (s, e) => sender.QueueForSending(e.Spot);
             var grabberTask = grabber.Start();
 
